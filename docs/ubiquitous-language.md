@@ -1,6 +1,8 @@
 # facilitator
   who is taking ownership for collecting, placing & distributing the items ordered by the people form the community.
-  - 
+  - a community can have more than one facilitator
+  - a facilitator is an individual
+  - a facilitator can facilitate more one community
 
 # community
   group of individuals from a geography or similar interest  
