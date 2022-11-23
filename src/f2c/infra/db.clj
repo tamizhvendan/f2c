@@ -32,7 +32,24 @@
   {:store :database
    :db {:datasource datasource}})
 
+(defn migrate []
+  (mount/start #'config/root #'datasource)
+  (try
+    (migratus/migrate (migration-config))
+    (finally
+      (mount/stop #'datasource))))
+
+(defn rollback []
+  (mount/start #'config/root #'datasource)
+  (try
+    (migratus/rollback (migration-config))
+    (finally
+      (mount/stop #'datasource))))
+
+
 (comment 
+  (migrate)
+  (rollback)
   (migratus/create (migration-config) "initial-schema")
   )
 

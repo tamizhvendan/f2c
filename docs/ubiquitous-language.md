@@ -23,6 +23,13 @@
   - An individual from the community can only place their individual-orders only if the corresponding consolidated-order is in open state. 
   - only facilitators from a community can create/modify the community-order
   - will have a unique name that differentiates within the communtiy
+## community-order states
+1. **open**: any individual can place order
+2. **closed**: individual will no longer be able to place order
+3. **cancelled**: farmer cancelled the order
+4. **received**: order received from the farmer
+5. **delivered**: all indvidual orders are satisfied
+6. **completed**: all done - received, delivered, payment-received **(TBD)**
   
 # individual-order
 An order placed by an individual

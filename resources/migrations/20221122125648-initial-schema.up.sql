@@ -4,6 +4,7 @@ CREATE TABLE "community" (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
 , name VARCHAR(256) NOT NULL
 );
+--;;
 CREATE TABLE "individual" (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
 , name VARCHAR(256) NOT NULL
@@ -17,7 +18,7 @@ CREATE TABLE "community"."individual" (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
 , community_id UUID NOT NULL REFERENCES community(id)
 , individual_id UUID NOT NULL REFERENCES individual(id)
-, joined_on DATE NOT NULL CURRENT_DATE
+, joined_on DATE NOT NULL DEFAULT CURRENT_DATE
 , UNIQUE (community_id, individual_id)
 );
 --;;
@@ -44,4 +45,13 @@ $$ LANGUAGE PLPGSQL;
 CREATE OR REPLACE TRIGGER check_facilitator_is_a_part_of_community_trig
   BEFORE INSERT OR UPDATE ON "community"."facilitator"
   FOR EACH ROW EXECUTE PROCEDURE check_facilitator_is_a_part_of_community();
+--;;
+CREATE TYPE "community"."order_state" AS ENUM ('open', 'closed', 'cancelled', 'received', 'delivered', 'completed');
+--;;
+CREATE TABLE "community"."order" (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+, name VARCHAR(256) NOT NULL
+, state "community"."order_state" NOT NULL DEFAULT 'open'
+, community_id UUID NOT NULL REFERENCES community(id)
+);
 --;;
