@@ -1,5 +1,9 @@
-(ns f2c.core)
+(ns f2c.core
+  (:require [f2c.infra.core :as infra]))
+
+(.addShutdownHook (Runtime/getRuntime)
+                  (Thread. (fn []
+                             (infra/stop-app))))
 
 (defn -main [& args]
-  
-  (println "hello world!"))
+  (infra/start-app))
