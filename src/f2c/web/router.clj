@@ -1,17 +1,11 @@
 (ns f2c.web.router
   (:require [reitit.ring :as ring]
-            [ring.util.response :as rr]
             [f2c.web.app.middleware :as app-middleware]
-            [f2c.web.app.individual.auth :as individual-auth]))
-
-(defn version-handler [req]
-  (rr/response "It's working"))
-
-(defn app-home-handler [req]
-  (rr/response (str "Hi " (:individual/name (individual-auth/current-individual req)))))
+            [f2c.web.status :as status]
+            [f2c.web.app.individual.index :as individual-index]))
 
 (defn root []
   (ring/router
-   [["/version" version-handler]
+   [["/status" status/handler]
     ["/app" {:middleware [[app-middleware/individual-basic-authentication]]}
-     ["" app-home-handler]]]))
+     ["" individual-index/handler]]]))
