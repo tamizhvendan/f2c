@@ -10,7 +10,12 @@
         ;; State Management
         mount/mount {:mvn/version "0.1.16"}
         
+        
+        ;; Authentication
+        ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
+        
         ;; DB Management - Postgres
+        org.graphqlize/honeyeql {:mvn/version "0.1.0-alpha43"}
         org.postgresql/postgresql {:mvn/version "42.5.0"}
         hikari-cp/hikari-cp {:mvn/version "3.0.0"}
         migratus/migratus {:mvn/version "1.4.5"}
