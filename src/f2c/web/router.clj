@@ -8,4 +8,5 @@
   (ring/router
    [["/status" status/handler]
     ["/app" {:middleware [[app-middleware/individual-basic-authentication]]}
-     ["" individual-index/handler]]]))
+     ["" individual-index/handler]]]
+   {:data {:middleware [app-middleware/exception]}}))
