@@ -3,6 +3,7 @@
             [f2c.infra.config :as config]
             [hikari-cp.core :as hikari]
             [migratus.core :as migratus]
+            [honeyeql.db :as heql-db]
             [mount.core :as mount])
   (:import [java.net URI]))
 
@@ -27,6 +28,9 @@
 (mount/defstate datasource
   :start (create-datasource)
   :stop (hikari/close-datasource datasource))
+
+(mount/defstate adapter
+  :start (heql-db/initialize datasource))
 
 (defn migration-config []
   {:store :database
