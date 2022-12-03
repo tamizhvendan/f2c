@@ -1,2 +1,3 @@
 {:database-url #or [#env "F2C_DATABASE_URL" "postgres://postgres:postgres@localhost:5432/f2c"]
- :http-port #long #or [#env "F2C_HTTP_PORT" 6060]}
+ :http-port #long #or [#env "F2C_HTTP_PORT" 6060]
+ :version #or [#env "F2C_VERSION" "unknown"]}

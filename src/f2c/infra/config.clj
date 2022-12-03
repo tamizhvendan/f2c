@@ -14,3 +14,6 @@
 
 (defn http-port []
   (:http-port root))
+
+(defn version []
+  (:version root))
