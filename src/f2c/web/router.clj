@@ -9,8 +9,12 @@
   (ring/router
    [["/status" status/handler]
     ["/app" {:middleware [[app-middleware/individual-basic-authentication]]}
-     ["" individual-index/handler]
-     ["/communities/:community-id/orders/new" {:name :route.community/new-order
-                                               :middleware [[app-middleware/facilitator-only]]
-                                               :handler order-new/handler}]]]
+     ["" {:name :route.individual/index
+          :handler individual-index/handler}]
+     ["/communities/:community-id/orders"
+      ["" {:post order-new/create-handler
+           :name :route.community/create-order}]
+      ["/new" {:name :route.community/new-order
+               :middleware [[app-middleware/facilitator-only]]
+               :handler order-new/handler}]]]]
    {:data {:middleware [app-middleware/exception]}}))
