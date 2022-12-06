@@ -1,5 +1,6 @@
 (ns f2c.web.app.community.order.new
-  (:require [f2c.extension.ring-response :as rr]))
+  (:require [f2c.web.app.view.layout.default :as layout]))
 
 (defn handler [req]
-  (rr/json {:todo "wip"}))
+  (layout/render "New Order"
+                 [:p "New Order Form Coming Soon"]))
