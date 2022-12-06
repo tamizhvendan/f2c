@@ -2,7 +2,8 @@
   (:require [f2c.community :as community]
             [f2c.community.repository :as community-repo]
             [f2c.extension.ring-response :as rr]
-            [f2c.web.app.individual.auth :as individual-auth]))
+            [f2c.web.app.individual.auth :as individual-auth]
+            [f2c.extension.reitit :as r]))
 
 (defn handler [req]
   (let [current-individual-id (:individual/id (individual-auth/current-individual req))
@@ -17,6 +18,10 @@
         [:p "Your communties"]
         [:ul
          (map (fn [{:community/keys [id name] :as community}]
-                [:li {:data-id id
-                      :data-is-facilitator (community/is-facilitator community current-individual-id)} name])
+                [:li
+                 [:p
+                  [:span name]
+                  (when (community/is-facilitator community current-individual-id)
+                    [:a {:style {:margin-left "1rem"}
+                         :href (r/path req :route.community/new-order {:community-id id})} "Create Order"])]])
               communities)]]]])))
