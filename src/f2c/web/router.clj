@@ -16,10 +16,10 @@
     ["/app" {:middleware [[app-middleware/individual-basic-authentication]]}
      ["" {:name :route.individual/index
           :handler individual-index/handler}]
-     ["/communities/:community-id/orders" {:middleware [[app-middleware/facilitator-only]]}
+     ["/communities/:community-id/orders" {:middleware [[app-middleware/facilitator-only]]
+                                           :parameters {:path {:community-id uuid?}}}
       ["" {:post order-new/create-handler
-           :parameters {:form [:map
-                               [:community.order/name [:string {:min 4 :max 256}]]]}
+           :parameters {:form order-new/create-request}
            :name :route.community/create-order}]
       ["/new" {:name :route.community/new-order
                :handler order-new/handler}]]]]
