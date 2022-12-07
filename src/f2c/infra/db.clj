@@ -51,9 +51,8 @@
       (mount/stop #'datasource))))
 
 
-(comment 
+(comment
   (migrate)
   (rollback)
-  (migratus/create (migration-config) "initial-schema")
-  )
+  (migratus/create (migration-config) "community-order-created-at"))
 

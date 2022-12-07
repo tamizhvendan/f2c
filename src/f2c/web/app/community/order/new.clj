@@ -26,4 +26,4 @@
   (let [order-name (get-in req [:parameters :form :community.order/name])
         community-id (get-in req [:parameters :path :community-id])]
     (community-order-repo/create-order community-id order-name)
-    (response/redirect (r/path req :route.individual/index))))
+    (response/redirect (r/path req :route.community/index {:community-id community-id}))))

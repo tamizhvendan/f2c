@@ -14,10 +14,10 @@
                     [:p "Your communties"]
                     [:ul
                      (map (fn [{:community/keys [id name] :as community}]
-                            [:li
-                             [:p
-                              [:span name]
-                              (when (community/is-facilitator community current-individual-id)
-                                [:a {:style {:margin-left "1rem"}
-                                     :href (r/path req :route.community/new-order {:community-id id})} "Create Order"])]])
+                            (let [is-facilitator (community/is-facilitator community current-individual-id)]
+                              [:li
+                               [:p
+                                (if is-facilitator
+                                  [:a {:href (r/path req :route.community/index {:community-id id})} name]
+                                  [:span name])]]))
                           communities)]])))
