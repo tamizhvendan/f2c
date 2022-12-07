@@ -11,7 +11,8 @@
             [f2c.web.status :as status]
             [f2c.web.app.individual.index :as individual-index]
             [f2c.web.app.community.order.new :as order-new]
-            [f2c.web.app.community.index :as community-index]))
+            [f2c.web.app.community.index :as community-index]
+            [f2c.web.app.community.catalog.index :as catalog-index]))
 
 (defn root []
   (ring/router
@@ -23,6 +24,8 @@
                                     :parameters {:path {:community-id uuid?}}}
       ["" {:name :route.community/index
            :handler community-index/handler}]
+      ["/catalog" {:name :route.community.catalog/index
+                   :handler catalog-index/handler}]
       ["/orders"
        ["" {:post order-new/create-handler
             :parameters {:form order-new/create-request}

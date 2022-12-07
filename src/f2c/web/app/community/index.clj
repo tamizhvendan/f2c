@@ -4,20 +4,30 @@
             [f2c.web.app.view.layout.default :as layout]
             [f2c.community.order.repository :as community-order-repo]))
 
+(defn- orders-section [req community-id]
+  (let [orders (community-order-repo/fetch-orders community-id)]
+    [:div
+     [:a {:style {:margin-left "1rem"}
+          :href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]
+     (if (seq orders)
+       [:p "Your Orders"
+        [:ul
+         (map (fn [{:community.order/keys [name state]}]
+                [:li (format "%s - %s" name state)]) orders)]]
+       [:p "Sorry, You don't have any orders"])]))
+
+(defn- item-catalog-section [req community-id]
+  [:div
+   [:p "Items Catalog"]
+   [:a {:href (r/path req :route.community.catalog/index
+                      {:community-id community-id})}
+    "Configure Availability"]])
+
 (defn handler [req]
   (let [community-id (get-in req [:parameters :path :community-id])
-        {:community/keys [name]} (community-repo/fetch-community community-id)
-        orders (community-order-repo/fetch-orders community-id)]
+        {:community/keys [name]} (community-repo/fetch-community community-id)]
     (layout/render (str name " - Community")
                    [:main
-                    [:div
-                     [:p name]
-                     [:a {:style {:margin-left "1rem"}
-                          :href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]]
-                    [:div
-                     (if (seq orders)
-                       [:p "Your Orders"
-                        [:ul
-                         (map (fn [{:community.order/keys [name state]}]
-                                [:li (format "%s - %s" name state)]) orders)]]
-                       [:p "Sorry, You don't have any orders"])]])))
+                    [:div [:p name]]
+                    (orders-section req community-id)
+                    (item-catalog-section req community-id)])))

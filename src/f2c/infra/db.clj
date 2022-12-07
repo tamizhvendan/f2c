@@ -54,5 +54,5 @@
 (comment
   (migrate)
   (rollback)
-  (migratus/create (migration-config) "community-order-created-at"))
+  (migratus/create (migration-config) "catalog"))
 
