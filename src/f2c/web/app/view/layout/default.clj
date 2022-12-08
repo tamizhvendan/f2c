@@ -7,4 +7,4 @@
     [:head
      [:title title]
      [:link {:rel "stylesheet" :type "text/css" :href "/assets/web/site.css"}]]
-    [:body body]]))
+    [:body {:class "max-w-lg p-4 mx-auto"} body]]))
