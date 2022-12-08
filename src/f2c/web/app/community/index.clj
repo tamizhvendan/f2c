@@ -7,8 +7,7 @@
 (defn- orders-section [req community-id]
   (let [orders (community-order-repo/fetch-orders community-id)]
     [:div
-     [:a {:style {:margin-left "1rem"}
-          :href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]
+     [:a {:href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]
      (if (seq orders)
        [:p "Your Orders"
         [:ul

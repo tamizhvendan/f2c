@@ -14,8 +14,7 @@
                   [:input {:type "text" :id "community.order/name" :name "community.order/name"
                            :max-length 256 :min-length 4
                            :placehoder "Name (4 to 256 characters)"}]
-                  [:input {:style {:margin-left "0.5rem"}
-                           :type "submit"
+                  [:input {:type "submit"
                            :value "Create Order"}]]))
 
 (def create-request

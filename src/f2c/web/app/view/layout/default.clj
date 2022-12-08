@@ -5,5 +5,6 @@
   (rr/html
    [:html
     [:head
-     [:title title]]
+     [:title title]
+     [:link {:rel "stylesheet" :type "text/css" :href "/assets/web/site.css"}]]
     [:body body]]))

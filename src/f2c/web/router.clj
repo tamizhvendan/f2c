@@ -17,6 +17,7 @@
 (defn root []
   (ring/router
    [["/status" status/handler]
+    ["/assets/*" (ring/create-resource-handler)]
     ["/app" {:middleware [[app-middleware/individual-basic-authentication]]}
      ["" {:name :route.individual/index
           :handler individual-index/handler}]
