@@ -3,6 +3,7 @@
             [reitit.coercion.malli :as r-malli]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.parameters :as parameters]
+            [reitit.ring.middleware.multipart :as multipart]
             [reitit.ring.coercion :as coercion]
             [muuntaja.core :as m]
 
@@ -12,7 +13,8 @@
             [f2c.web.app.individual.index :as individual-index]
             [f2c.web.app.community.order.new :as order-new]
             [f2c.web.app.community.index :as community-index]
-            [f2c.web.app.community.catalog.index :as catalog-index]))
+            [f2c.web.app.community.catalog.index :as catalog-index]
+            [f2c.web.app.community.catalog.item.handlers :as catalog-item]))
 
 (defn root []
   (ring/router
@@ -25,8 +27,13 @@
                                     :parameters {:path {:community-id uuid?}}}
       ["" {:name :route.community/index
            :handler community-index/handler}]
-      ["/catalog" {:name :route.community.catalog/index
-                   :handler catalog-index/handler}]
+      ["/catalog"
+       ["" {:name :route.community.catalog/index
+            :handler catalog-index/handler}]
+       ["/items/:item-id/availability" {:name :route.community.catalog.item/update-availability
+                                        :parameters {:path {:item-id uuid?}
+                                                     :multipart catalog-item/update-availability-request}
+                                        :put catalog-item/update-availability-handler}]]
       ["/orders"
        ["" {:post order-new/create-handler
             :parameters {:form order-new/create-request}
@@ -39,4 +46,5 @@
                         muuntaja/format-middleware
                         coercion/coerce-exceptions-middleware
                         parameters/parameters-middleware
+                        multipart/multipart-middleware
                         coercion/coerce-request-middleware]}}))

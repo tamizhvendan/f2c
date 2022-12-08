@@ -7,4 +7,5 @@
     [:head
      [:title title]
      [:link {:rel "stylesheet" :type "text/css" :href "/assets/web/site.css"}]]
-    [:body {:class "max-w-lg p-4 mx-auto"} body]]))
+    [:body {:class "max-w-lg p-4 mx-auto"} body
+     [:script {:src "//unpkg.com/alpinejs" :defer true}]]]))
