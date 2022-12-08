@@ -9,5 +9,6 @@ CREATE TABLE community.item_availability (
   community_id UUID NOT NULL REFERENCES community(id)
 , item_id UUID NOT NULL REFERENCES item(id)
 , is_available BOOLEAN NOT NULL DEFAULT TRUE
+, UNIQUE (community_id, item_id)
 );
 --;;

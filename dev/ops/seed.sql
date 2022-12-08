@@ -17,3 +17,15 @@ VALUES
 INSERT INTO "community"."facilitator"("id","community_id","individual_id")
 VALUES
 (E'608a7224-f2cb-4f4a-b149-61c4a0dceead',E'74e06d97-cf9f-4133-b6e2-8f06c886f1cd',E'0a51f1ac-f4e9-478d-8cd3-4b1c135a4470');
+
+
+INSERT INTO "public"."item"("id","name")
+VALUES
+(E'dc1df659-4427-4d32-9747-3cf23de1596e',E'Big Onion'),
+(E'd03cadcc-f5a9-4187-b1c4-4cf92e052d95',E'Garlic'),
+(E'9a34bb9a-4a7a-4044-b846-20661d0cc619',E'Small Onion');
+
+INSERT INTO "community"."item_availability"("community_id","item_id","is_available")
+VALUES
+(E'74e06d97-cf9f-4133-b6e2-8f06c886f1cd',E'9a34bb9a-4a7a-4044-b846-20661d0cc619',TRUE),
+(E'74e06d97-cf9f-4133-b6e2-8f06c886f1cd',E'd03cadcc-f5a9-4187-b1c4-4cf92e052d95',TRUE);
