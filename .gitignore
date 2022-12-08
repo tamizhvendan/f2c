@@ -16,3 +16,4 @@ pom.xml.asc
 .lsp
 .calva
 assets/node_modules
+resources/public/web/site.css
