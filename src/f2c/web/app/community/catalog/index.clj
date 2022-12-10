@@ -8,7 +8,7 @@
   (format
    "let formData = new FormData();
     formData.append('community.item-availability/is-available', isAvailable);
-    fetch('%s', {method : 'PUT', body : formData})
+    fetch('%s', {method : 'PUT', body : new URLSearchParams(formData)})
      .then(response => { if (!response.ok) { isAvailable = !isAvailable; alert('%s'); } })"
    form-submit-url
    "Sorry, Unable to update availability"))
@@ -29,8 +29,8 @@
               [:td {:x-data (format "{isAvailable : %b, itemId : '%s'}" is-available id)}
                [:select {:x-model "isAvailable"
                          :x-on:change (on-availability-change-js-body availability-change-url)}
-                [:option {:value "true"} "Available"]
-                [:option {:value "false"} "Not Available"]]]]))
+                [:option {:value "true" :selected is-available} "Available"]
+                [:option {:value "false" :selected (not is-available)} "Not Available"]]]]))
          items)]])
 
 (defn- items-section [req community-id]

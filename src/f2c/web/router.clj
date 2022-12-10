@@ -3,7 +3,6 @@
             [reitit.coercion.malli :as r-malli]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.parameters :as parameters]
-            [reitit.ring.middleware.multipart :as multipart]
             [reitit.ring.coercion :as coercion]
             [muuntaja.core :as m]
 
@@ -32,7 +31,7 @@
             :handler catalog-index/handler}]
        ["/items/:item-id/availability" {:name :route.community.catalog.item/update-availability
                                         :parameters {:path {:item-id uuid?}
-                                                     :multipart catalog-item/update-availability-request}
+                                                     :form catalog-item/update-availability-request}
                                         :put catalog-item/update-availability-handler}]]
       ["/orders"
        ["" {:post order-new/create-handler
@@ -46,5 +45,4 @@
                         muuntaja/format-middleware
                         coercion/coerce-exceptions-middleware
                         parameters/parameters-middleware
-                        multipart/multipart-middleware
                         coercion/coerce-request-middleware]}}))
