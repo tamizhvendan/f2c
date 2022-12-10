@@ -4,12 +4,11 @@
             [f2c.extension.reitit :as r]))
 
 (defn on-availability-change-js-body [form-submit-url]
-  ;TODO isAvailable reset to old state on error not working
   (format
    "let formData = new FormData();
-    formData.append('community.item-availability/is-available', isAvailable);
+    formData.append('community.item-availability/is-available', isAvailableAtClient);
     fetch('%s', {method : 'PUT', body : new URLSearchParams(formData)})
-     .then(response => { if (!response.ok) { isAvailable = !isAvailable; alert('%s'); } })"
+     .then(response => { if (!response.ok) { isAvailableAtClient = isAvailableAtServer; alert('%s'); } })"
    form-submit-url
    "Sorry, Unable to update availability"))
 
@@ -26,8 +25,8 @@
                                                   :item-id id})]
              [:tr
               [:td name]
-              [:td {:x-data (format "{isAvailable : %b, itemId : '%s'}" is-available id)}
-               [:select {:x-model "isAvailable"
+              [:td {:x-data (format "{isAvailableAtClient : %b, itemId : '%s', isAvailableAtServer: %b}" is-available id is-available)}
+               [:select {:x-model "isAvailableAtClient"
                          :x-on:change (on-availability-change-js-body availability-change-url)}
                 [:option {:value "true" :selected is-available} "Available"]
                 [:option {:value "false" :selected (not is-available)} "Not Available"]]]]))
