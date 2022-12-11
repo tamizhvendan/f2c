@@ -4,14 +4,13 @@
             [next.jdbc.sql :as sql]))
 
 (defn fetch-items [community-id]
-  ; TODO: do sorting at the query
   (->> (heql/query db/adapter
-                   {[:community.item-availability/community-id community-id]
+                   {[[:community.item-availability/community-id community-id]
+                     {:order-by [[:community.item-availability/item :item/name]]}]
                     [:community.item-availability/is-available
                      {:community.item-availability/item
                       [:item/id
                        :item/name]}]})
-       (sort-by #(get-in % [:community.item-availability/item :item/name]))
        (map (fn [{:community.item-availability/keys [is-available item]}]
               (assoc item :item/is-available is-available)))))
 
