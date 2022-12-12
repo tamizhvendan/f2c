@@ -1,13 +1,17 @@
 (ns f2c.web.app.middleware
-  (:require [ring.middleware.basic-authentication :as rbauth]
-            [f2c.web.app.individual.auth :as individual-auth]
-            [reitit.ring.middleware.exception :as exception]
+  (:require [f2c.community :as community]
             [f2c.community.repository :as community-repo]
-            [ring.util.response :as response]
-            [f2c.community :as community]))
+            [f2c.individual.repository :as individual-repo]
+            [reitit.ring.middleware.exception :as exception]
+            [ring.middleware.basic-authentication :as rbauth]
+            [ring.util.response :as response]))
 
 (defn- wrap-basic-authentication [handler]
-  (rbauth/wrap-basic-authentication handler individual-auth/authenticated-individual))
+  (rbauth/wrap-basic-authentication (fn [req]
+                                      (->> (:basic-authentication req)
+                                           (assoc req :current-individual)
+                                           handler))
+                                    individual-repo/fetch-individual))
 
 (def individual-basic-authentication
   {:name :individual-basic-authentication
@@ -17,8 +21,7 @@
   (fn [req]
     (let [community-id (get-in req [:path-params :community-id])]
       (if-let [community (community-repo/fetch-community community-id)]
-        (if (community/is-facilitator community
-                                      (:individual/id (individual-auth/current-individual req)))
+        (if (community/is-facilitator community (get-in req [:current-individual :individual/id]))
           (handler req)
           {:status 401
            :message "you are not authorized to perform this operation"})
