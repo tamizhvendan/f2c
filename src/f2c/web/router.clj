@@ -8,6 +8,7 @@
 
             [f2c.web.app.middleware :as app-middleware]
 
+            [f2c.web.index :as index]
             [f2c.web.status :as status]
             [f2c.web.app.individual.index :as individual-index]
             [f2c.web.app.community.order.new :as order-new]
@@ -17,7 +18,8 @@
 
 (defn root []
   (ring/router
-   [["/status" status/handler]
+   [["/" index/handler]
+    ["/status" status/handler]
     ["/assets/*" (ring/create-resource-handler)]
     ["/app" {:middleware [[app-middleware/individual-basic-authentication]]}
      ["" {:name :route.individual/index
