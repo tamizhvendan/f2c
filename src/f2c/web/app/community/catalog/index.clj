@@ -8,7 +8,14 @@
    "let formData = new FormData();
     formData.append('community.item-availability/is-available', isAvailableAtClient);
     fetch('%s', {method : 'PUT', body : new URLSearchParams(formData)})
-     .then(response => { if (!response.ok) { isAvailableAtClient = isAvailableAtServer; alert('%s'); } })"
+     .then(response => { 
+        if (!response.ok) { 
+          isAvailableAtClient = isAvailableAtServer; 
+          alert('%s'); 
+          return
+        }
+        isAvailableAtServer = isAvailableAtClient
+      });"
    form-submit-url
    "Sorry, Unable to update availability"))
 
