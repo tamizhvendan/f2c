@@ -1,7 +1,6 @@
 (ns f2c.community.item.repository
   (:require [f2c.infra.db :as db]
-            [honeyeql.core :as heql]
-            [next.jdbc.sql :as sql]))
+            [honeyeql.core :as heql]))
 
 (defn fetch-items [community-id]
   (->> (heql/query db/adapter
@@ -15,10 +14,10 @@
               (assoc item :item/is-available is-available)))))
 
 (defn update-availability [community-id item-id is-available]
-  (sql/update! db/datasource :community.item_availability
-               {:is_available is-available}
-               {:community_id community-id
-                :item_id item-id}))
+  (heql/update! db/adapter
+                #:community.item_availability{:is-available is-available}
+                #:community.item_availability{:community-id community-id
+                                              :item-id item-id}))
 
 (comment
   (fetch-items "74e06d97-cf9f-4133-b6e2-8f06c886f1cd")

@@ -1,14 +1,12 @@
 (ns f2c.community.order.repository
   (:require [f2c.infra.db :as db]
-            [next.jdbc.sql :as sql]
             [honeyeql.core :as heql]))
 
 
 (defn create-order [community-id order-name]
-  (sql/insert! db/datasource
-               :community.order
-               {:name order-name
-                :community_id community-id}))
+  (heql/insert! db/adapter
+                #:community.order{:name order-name
+                                  :community-id community-id}))
 
 (defn fetch-orders [community-id]
   (heql/query db/adapter
