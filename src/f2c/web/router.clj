@@ -11,6 +11,7 @@
             [f2c.web.index :as index]
             [f2c.web.status :as status]
             [f2c.web.app.individual.index :as individual-index]
+            [f2c.web.app.individual.community.index :as individual-community-index]
             [f2c.web.app.community.order.new :as order-new]
             [f2c.web.app.community.index :as community-index]
             [f2c.web.app.community.catalog.index :as catalog-index]
@@ -40,7 +41,13 @@
             :parameters {:form order-new/create-request}
             :name :route.community/create-order}]
        ["/new" {:name :route.community/new-order
-                :handler order-new/handler}]]]]]
+                :handler order-new/handler}]]]
+     ["/individuals/:individual-id/communities/:community-id"
+      {:middleware [[app-middleware/individual-community-only]]
+       :parameters {:path {:community-id uuid?
+                           :individual-id uuid?}}}
+      ["" {:name :route.individual.community/index
+           :handler individual-community-index/handler}]]]]
    {:data {:coercion   r-malli/coercion
            :muuntaja   m/instance
            :middleware [app-middleware/exception

@@ -17,11 +17,17 @@
                               [:li {:class "p-4 rounded shadow-md bg-white mt-4"}
                                [:p {:class "font-medium text-lg"} name]
                                [:div {:class "flex justify-end"}
-                                (when is-facilitator
-                                  [:a {:class "font-medium text-primary-900 hover:text-primary-700 no-underline inline-flex items-center text-sm"
-                                       :href (r/path req :route.community/index {:community-id id})}
-                                   [:span "Manage"]
-                                   [:i {:class "ri-arrow-right-line ml-1"}]])]]))
+                                [:div {:class "flex flex-col gap-2"}
+                                 [:a {:class "font-medium text-primary-900 hover:text-primary-700 no-underline inline-flex items-center text-sm"
+                                      :href (r/path req :route.individual.community/index {:individual-id individual-id
+                                                                                           :community-id id})}
+                                  [:span "Manage Orders"]
+                                  [:i {:class "ri-arrow-right-line ml-1"}]]
+                                 (when is-facilitator
+                                   [:a {:class "font-medium text-primary-900 hover:text-primary-700 no-underline inline-flex items-center text-sm"
+                                        :href (r/path req :route.community/index {:community-id id})}
+                                    [:span "Manage Community"]
+                                    [:i {:class "ri-arrow-right-line ml-1"}]])]]]))
                           communities)]])))
 
 (defn handler [req]

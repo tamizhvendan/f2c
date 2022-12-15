@@ -18,6 +18,7 @@
     (layout/render (str name " - Community")
                    (vec (concat [:main {:class "p-4 md:max-w-lg md:mx-auto"}
 
+                                 ; nav menu
                                  [:div {:class "flex items-center justify-between"}
                                   [:a {:href (r/path req :route.individual/index) :class "flex-1"}
                                    [:img {:class "h-16 w-16 -ml-2" :src "/assets/web/images/logo.png"}]]
@@ -28,7 +29,8 @@
                                     (render-nav-link "Catalog" (r/path req :route.community.catalog/index {:community-id id})
                                                      :catalog current-page-name)]]]
 
+                                 ; community name
                                  [:p {:class "mt-2 font-medium font-display"} name]
-
+                                 ; spacing
                                  [:div {:class "mt-4"}]]
                                 children)))))
