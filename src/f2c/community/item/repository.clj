@@ -15,11 +15,14 @@
 
 (defn update-availability [community-id item-id is-available]
   (heql/update! db/adapter
-                #:community.item_availability{:is-available is-available}
-                #:community.item_availability{:community-id community-id
+                #:community.item-availability{:is-available is-available}
+                #:community.item-availability{:community-id community-id
                                               :item-id item-id}))
 
 (comment
+  (update-availability #uuid "74e06d97-cf9f-4133-b6e2-8f06c886f1cd"
+                       #uuid "21ad557e-7fc6-4cb1-9a93-b3f87a8812d7"
+                       true)
   (fetch-items "74e06d97-cf9f-4133-b6e2-8f06c886f1cd")
   (fetch-items "4f6d13df-b11b-4a37-a45c-194c60a803af"))
 
