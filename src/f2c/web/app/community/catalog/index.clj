@@ -1,6 +1,6 @@
 (ns f2c.web.app.community.catalog.index
   (:require [f2c.community.item.repository :as community-item-repo]
-            [f2c.web.app.view.layout.default :as layout]
+            [f2c.web.app.view.layout.community :as layout]
             [f2c.extension.reitit :as r]))
 
 (defn on-availability-change-js-body [form-submit-url]
@@ -46,5 +46,6 @@
       [:p "No items found"])))
 
 (defn handler [req]
-  (layout/render "Items Catalog"
-                 (items-section req (get-in req [:parameters :path :community-id]))))
+  (layout/render req
+                 [(items-section req (get-in req [:parameters :path :community-id]))]
+                 :catalog))

@@ -6,6 +6,10 @@
    [:html
     [:head
      [:title title]
+     [:meta {:name "viewport" :content "width=device-width"}]
+     [:link {:rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"}]
+     [:link {:rel "stylesheet" :href "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Figtree:wght@300;400;500;600&display=swap"}]
      [:link {:rel "stylesheet" :type "text/css" :href "/assets/web/site.css"}]]
-    [:body {:class "max-w-lg p-4 mx-auto"} body
-     [:script {:src "//unpkg.com/alpinejs" :defer true}]]]))
+    [:body {:class "font-body bg-primary-50 text-base"} body
+     [:script {:src "//unpkg.com/alpinejs" :defer true}]
+     [:script {:src "https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"}]]]))

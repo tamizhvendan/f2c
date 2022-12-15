@@ -1,32 +1,28 @@
 (ns f2c.web.app.community.index
-  (:require [f2c.community.repository :as community-repo]
-            [f2c.extension.reitit :as r]
-            [f2c.web.app.view.layout.default :as layout]
+  (:require [f2c.extension.reitit :as r]
+            [f2c.web.app.view.layout.community :as layout]
             [f2c.community.order.repository :as community-order-repo]))
+
+(defn render-state [state]
+  (case state
+    "open" [:span {:class "text-xs bg-primary-600 text-white ml-2 rounded px-1 py-0.5"} state]))
 
 (defn- orders-section [req community-id]
   (let [orders (community-order-repo/fetch-orders community-id)]
     [:div
-     [:a {:href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]
      (if (seq orders)
-       [:p {:class "font-bold"} "Your Orders"
-        [:ul
+       [:div
+        [:p {:class "flex justify-between items-center"}
+         [:span {:class "font-bold font-display text-xl"} "Orders"]
+         [:a {:class "no-underline border border-primary-800 hover:text-white hover:bg-primary-800 rounded px-3 py-2 text-sm"
+              :href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]]
+        [:ul {:class "mt-4 space-y-4"}
          (map (fn [{:community.order/keys [name state]}]
-                [:li (format "%s - %s" name state)]) orders)]]
+                [:li {:class "flex items-center"}
+                 [:span name]
+                 (render-state state)]) orders)]]
        [:p "Sorry, You don't have any orders"])]))
 
-(defn- item-catalog-section [req community-id]
-  [:div
-   [:p {:class "font-bold"} "Items Catalog"]
-   [:a {:href (r/path req :route.community.catalog/index
-                      {:community-id community-id})}
-    "Configure Availability"]])
-
 (defn handler [req]
-  (let [community-id (get-in req [:parameters :path :community-id])
-        {:community/keys [name]} (community-repo/fetch-community community-id)]
-    (layout/render (str name " - Community")
-                   [:main {:class "space-y-4"}
-                    [:div [:p name]]
-                    (orders-section req community-id)
-                    (item-catalog-section req community-id)])))
+  (let [{:community/keys [id]} (:current-community req)]
+    (layout/render req [(orders-section req id)] :home)))

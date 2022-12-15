@@ -22,7 +22,7 @@
     (let [community-id (get-in req [:path-params :community-id])]
       (if-let [community (community-repo/fetch-community community-id)]
         (if (community/is-facilitator community (get-in req [:current-individual :individual/id]))
-          (handler req)
+          (handler (assoc req :current-community community))
           {:status 401
            :message "you are not authorized to perform this operation"})
         (response/not-found "community not found")))))
