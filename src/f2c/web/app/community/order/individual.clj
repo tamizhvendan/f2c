@@ -13,18 +13,17 @@
                            {:community-order-id id})}
     [:input {:class "text-white bg-primary-800 rounded px-3 py-2 cursor-pointer" :type "submit" :value "Create your order"}]]])
 
-(defn- render-individual-order [req]
+(defn view-current-individual-order-handler [req]
   (let [current-community-order-id (get-in req [:current-community-order :community.order/id])
         current-individual-id (get-in req [:current-individual :individual/id])]
-    (if-let [_ (individual-order-repo/fetch-order current-community-order-id current-individual-id)]
-      [:p "You already have an order"]
+    (if-let [{:individual.order/keys [id]} (individual-order-repo/fetch-order current-community-order-id current-individual-id)]
+      (response/redirect (r/path req :route.individual-order/index
+                                 {:individual-order-id id}))
       (render-create-individual-order-view req (:current-community-order req)))))
-
-(defn view-current-individual-order-handler [req]
-  (layout/render req [(render-individual-order req)]))
 
 (defn create-individual-order [req]
   (let [current-community-order-id (get-in req [:current-community-order :community.order/id])
-        current-individual-id (get-in req [:current-individual :individual/id])]
-    (individual-order-repo/create-order current-community-order-id current-individual-id)
-    (response/redirect "/app")))
+        current-individual-id (get-in req [:current-individual :individual/id])
+        {:individual.order/keys [id]} (individual-order-repo/create-order current-community-order-id current-individual-id)]
+    (response/redirect (r/path req :route.individual-order/index
+                               {:individual-order-id id}))))

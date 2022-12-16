@@ -10,13 +10,17 @@
 
             [f2c.web.index :as index]
             [f2c.web.status :as status]
+
             [f2c.web.app.individual.index :as individual-index]
             [f2c.web.app.individual.community.index :as individual-community-index]
+
             [f2c.web.app.community.order.new :as order-new]
             [f2c.web.app.community.index :as community-index]
+
             [f2c.web.app.community.catalog.index :as catalog-index]
             [f2c.web.app.community.catalog.item.handlers :as catalog-item]
-            [f2c.web.app.community.order.individual :as community-order-individual]))
+            [f2c.web.app.community.order.individual :as community-order-individual]
+            [f2c.web.app.individual.order.index :as individual-order-index]))
 
 (defn root []
   (ring/router
@@ -57,7 +61,11 @@
       ["/individual-orders" {:name :route.community-order/create-individual-order
                              :post community-order-individual/create-individual-order}]
       ["/individual-order" {:name :route.community-order/view-current-individual-order
-                            :handler community-order-individual/view-current-individual-order-handler}]]]]
+                            :handler community-order-individual/view-current-individual-order-handler}]]
+     ["/individual-orders/:individual-order-id" {:middleware [[app-middleware/individual-order]]
+                                                 :parameters {:path {:individual-order-id uuid?}}}
+      ["" {:name :route.individual-order/index
+           :handler individual-order-index/handler}]]]]
    {:data {:coercion   r-malli/coercion
            :muuntaja   m/instance
            :middleware [app-middleware/exception
