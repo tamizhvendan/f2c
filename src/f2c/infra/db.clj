@@ -54,5 +54,5 @@
 (comment
   (migrate)
   (rollback)
-  (migratus/create (migration-config) "catalog"))
+  (migratus/create (migration-config) "individual_order"))
 

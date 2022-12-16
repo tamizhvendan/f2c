@@ -5,7 +5,7 @@
             [reitit.ring.middleware.exception :as exception]
             [ring.middleware.basic-authentication :as rbauth]
             [ring.util.response :as response]
-            [f2c.web.app.individual.index :as individual-index]))
+            [f2c.community.order.repository :as community-order-repo]))
 
 (defn- wrap-basic-authentication [handler]
   (rbauth/wrap-basic-authentication (fn [req]
@@ -45,6 +45,21 @@
 (def individual-community-only
   {:name :individual-community-only
    :compile (constantly wrap-individual-community-only)})
+
+(defn- wrap-community-order [handler]
+  (fn [req]
+    (let [{:keys [community-order-id]} (:path-params req)
+          {current-individual-id :individual/id} (:current-individual req)]
+      (if-let [community-order (community-order-repo/fetch-order community-order-id)]
+        (if (community-repo/is-part-of-community? (get-in community-order [:community.order/community :community/id]) current-individual-id)
+          (handler (assoc req :current-community-order community-order))
+          {:status 401
+           :message "you are not authorized to perform this operation"})
+        (response/not-found "community order not found")))))
+
+(def community-order
+  {:name :community-order
+   :compile (constantly wrap-community-order)})
 
 (defn- global-exception-handler [_ exception _]
   (prn "application exception" exception)

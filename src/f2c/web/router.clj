@@ -52,7 +52,10 @@
       ["" {:name :route.individual.community/index
            :handler individual-community-index/handler}]]
 
-     ["/community-orders/:community-order-id" {:parameters {:path {:community-order-id uuid?}}}
+     ["/community-orders/:community-order-id" {:middleware [[app-middleware/community-order]]
+                                               :parameters {:path {:community-order-id uuid?}}}
+      ["/individual-orders" {:name :route.community-order/create-individual-order
+                             :post community-order-individual/create-individual-order}]
       ["/individual-order" {:name :route.community-order/view-current-individual-order
                             :handler community-order-individual/view-current-individual-order-handler}]]]]
    {:data {:coercion   r-malli/coercion
