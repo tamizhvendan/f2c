@@ -18,7 +18,8 @@
                            ""))
                        (.getPath db-uri))
      :username username
-     :password password}))
+     :password password
+     :connection-init-sql "SET TIME ZONE 'UTC';"}))
 
 (defn- create-datasource []
   (-> (config/db-connection-string)

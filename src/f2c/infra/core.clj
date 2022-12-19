@@ -5,6 +5,8 @@
             [f2c.web.core]))
 
 (defn start-app []
+  (System/setProperty "user.timezone" "UTC")
+  (java.util.TimeZone/setDefault (java.util.TimeZone/getTimeZone "UTC"))
   (mount/start))
 
 (defn stop-app []
