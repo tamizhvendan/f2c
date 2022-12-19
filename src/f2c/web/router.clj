@@ -49,23 +49,23 @@
        ["/new" {:name :route.community/new-order
                 :handler order-new/handler}]]]
 
-     ["/individuals/:individual-id/communities/:community-id"
-      {:middleware [[app-middleware/individual-community-only]]
-       :parameters {:path {:community-id uuid?
-                           :individual-id uuid?}}}
-      ["" {:name :route.individual.community/index
-           :handler individual-community-index/handler}]]
+     ["/individual"
+      ["/communities/:community-id"
+       {:middleware [[app-middleware/individual-community-only]]
+        :parameters {:path {:community-id uuid?}}}
+       ["" {:name :route.individual.community/index
+            :handler individual-community-index/handler}]]
+      ["/orders/:individual-order-id" {:middleware [[app-middleware/individual-order]]
+                                       :parameters {:path {:individual-order-id uuid?}}}
+       ["" {:name :route.individual-order/index
+            :handler individual-order-index/handler}]]]
 
-     ["/community-orders/:community-order-id" {:middleware [[app-middleware/community-order]]
+     ["/community/orders/:community-order-id" {:middleware [[app-middleware/community-order]]
                                                :parameters {:path {:community-order-id uuid?}}}
       ["/individual-orders" {:name :route.community-order/create-individual-order
                              :post community-order-individual/create-individual-order}]
       ["/individual-order" {:name :route.community-order/view-current-individual-order
-                            :handler community-order-individual/view-current-individual-order-handler}]]
-     ["/individual-orders/:individual-order-id" {:middleware [[app-middleware/individual-order]]
-                                                 :parameters {:path {:individual-order-id uuid?}}}
-      ["" {:name :route.individual-order/index
-           :handler individual-order-index/handler}]]]]
+                            :handler community-order-individual/view-current-individual-order-handler}]]]]
    {:data {:coercion   r-malli/coercion
            :muuntaja   m/instance
            :middleware [app-middleware/exception

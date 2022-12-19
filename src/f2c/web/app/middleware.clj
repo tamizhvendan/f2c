@@ -35,7 +35,8 @@
 
 (defn- wrap-individual-community-only [handler]
   (fn [req]
-    (let [{:keys [community-id individual-id]} (:path-params req)]
+    (let [{:keys [community-id]} (:path-params req)
+          individual-id (get-in req [:current-individual :individual/id])]
       (if-let [community (community-repo/fetch-community community-id)]
         (if (community-repo/is-part-of-community? community-id individual-id)
           (handler (assoc req :current-community community))

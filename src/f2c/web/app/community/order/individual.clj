@@ -1,7 +1,8 @@
 (ns f2c.web.app.community.order.individual
   (:require [f2c.individual.order.repository :as individual-order-repo]
             [ring.util.response :as response]
-            [f2c.extension.reitit :as r]))
+            [f2c.extension.reitit :as r]
+            [f2c.web.app.view.layout.community :as layout]))
 
 (defn- render-create-individual-order-view [req {:community.order/keys [id name community]}]
   [:div
@@ -18,7 +19,7 @@
     (if-let [{:individual.order/keys [id]} (individual-order-repo/fetch-order current-community-order-id current-individual-id)]
       (response/redirect (r/path req :route.individual-order/index
                                  {:individual-order-id id}))
-      (render-create-individual-order-view req (:current-community-order req)))))
+      (layout/render req [(render-create-individual-order-view req (:current-community-order req))] nil))))
 
 (defn create-individual-order [req]
   (let [current-community-order-id (get-in req [:current-community-order :community.order/id])
