@@ -1,6 +1,5 @@
 (ns f2c.web.app.community.order.individual
   (:require [f2c.individual.order.repository :as individual-order-repo]
-            [f2c.web.app.view.layout.individual.community :as layout]
             [ring.util.response :as response]
             [f2c.extension.reitit :as r]))
 
