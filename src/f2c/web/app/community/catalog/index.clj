@@ -19,25 +19,26 @@
    form-submit-url
    "Sorry, Unable to update availability"))
 
+(defn- render-item [req community-id {:item/keys [id name prices] :as item}]
+  (let [is-available (:item-availability/is-available item)
+        availability-change-url (r/path req :route.community.catalog.item/update-availability
+                                        {:community-id community-id
+                                         :item-id id})]
+    [:li {:class "p-4 rounded shadow-md bg-white mt-4"}
+     [:div {:class "flex justify-between"
+            :x-data (format "{isAvailableAtClient : %b, itemId : '%s', isAvailableAtServer: %b}" is-available id is-available)}
+      [:p {:class "font-medium"} name]
+      [:select {:x-model "isAvailableAtClient"
+                :x-on:change (on-availability-change-js-body availability-change-url)}
+       [:option {:value "true" :selected is-available} "Available"]
+       [:option {:value "false" :selected (not is-available)} "Not Available"]]]
+     [:ul
+      (map (fn [{:item.price/keys [price currency pricing-unit]}]
+             [:li (format "%s %s per %s" currency price pricing-unit)]) prices)]]))
+
 (defn- render-items [req community-id items]
-  [:table
-   [:thead
-    [:tr
-     [:th "Item Name"]
-     [:th "Availability"]]]
-   [:tbody
-    (map (fn [{:item/keys [id name is-available]}]
-           (let [availability-change-url (r/path req :route.community.catalog.item/update-availability
-                                                 {:community-id community-id
-                                                  :item-id id})]
-             [:tr
-              [:td name]
-              [:td {:x-data (format "{isAvailableAtClient : %b, itemId : '%s', isAvailableAtServer: %b}" is-available id is-available)}
-               [:select {:x-model "isAvailableAtClient"
-                         :x-on:change (on-availability-change-js-body availability-change-url)}
-                [:option {:value "true" :selected is-available} "Available"]
-                [:option {:value "false" :selected (not is-available)} "Not Available"]]]]))
-         items)]])
+  [:ul {:class ""}
+   (map (partial render-item req community-id) items)])
 
 (defn- items-section [req community-id]
   (let [items (community-item-repo/fetch-items community-id)]
