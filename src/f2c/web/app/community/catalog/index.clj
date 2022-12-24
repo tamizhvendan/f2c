@@ -30,7 +30,7 @@
      [:div {:class "flex justify-between"
             :x-data (format "{isAvailableAtClient : %b, itemId : '%s', isAvailableAtServer: %b}" is-available id is-available)}
       [:p {:class "font-medium flex mr-2"}
-       [:span "A large named vegetable or a fruit"]
+       [:span name]
        [:span {:x-show "!isAvailableAtClient"
                :class "ml-2 text-xs badge ~neutral @high"} "Not available"]]
       (toggle/render "isAvailableAtClient" (on-availability-change-js-body availability-change-url))]
