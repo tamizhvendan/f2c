@@ -1,4 +1,4 @@
-(ns f2c.web.app.community.index
+(ns f2c.web.app.community.order.index
   (:require [f2c.extension.reitit :as r]
             [f2c.web.app.view.layout.community :as layout]
             [f2c.community.order.repository :as community-order-repo]))
@@ -24,7 +24,7 @@
               :href (r/path req :route.community/new-order {:community-id community-id})} "Create New Order"]])]
      (if (seq orders)
        [:div
-        [:table {:class "table mt-2 md:mt-4"}
+        [:table {:class "table mt-2 md:mt-4 max-w-lg"}
          [:thead
           [:tr {:class "font-display opacity-70 text-sm"}
            [:th "Name"]
@@ -38,4 +38,4 @@
 
 (defn handler [req]
   (let [{:community/keys [id]} (:current-community req)]
-    (layout/render req (orders-section req id) :home)))
+    (layout/render req (orders-section req id) :orders)))

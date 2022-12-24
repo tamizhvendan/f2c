@@ -15,11 +15,11 @@
     [[:div {:class "border-b border-gray-200 space-y-1 mb-4"}
       [:div {:class "flex items-center"}
        [:i {:class "text-gray-600 ri-community-line text-2xl mr-1.5"}]
-       [:h2 {:class "font-semibold text-lg"} name]]
+       [:h2 {:class "font-display font-semibold text-lg text-gray-600"} name]]
       [:nav {:class "-mb-px flex space-x-4" :aria-label "Tabs"}
-       (render-tab-item "Home"
-                        (r/path req :route.community/index {:community-id id})
-                        (= :home current-page-name))
+       (render-tab-item "Orders"
+                        (r/path req :route.community/orders {:community-id id})
+                        (= :orders current-page-name))
        (render-tab-item "Catalog"
                         (r/path req :route.community.catalog/index {:community-id id})
                         (= :catalog current-page-name))]]

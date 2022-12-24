@@ -24,7 +24,7 @@
                                  [:i {:class "ri-arrow-right-line ml-1"}]]
                                 (when is-facilitator
                                   [:a {:class "card-link"
-                                       :href (r/path req :route.community/index {:community-id id})}
+                                       :href (r/path req :route.community/orders {:community-id id})}
                                    [:span "Manage Community"]
                                    [:i {:class "ri-arrow-right-line ml-1"}]])]]))
                           communities)]]

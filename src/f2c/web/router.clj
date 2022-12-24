@@ -14,11 +14,12 @@
             [f2c.web.app.individual.index :as individual-index]
             [f2c.web.app.individual.community.index :as individual-community-index]
 
-            [f2c.web.app.community.order.new :as order-new]
-            [f2c.web.app.community.index :as community-index]
+            [f2c.web.app.community.order.index :as community-order-index]
+            [f2c.web.app.community.order.new :as community-order-new]
 
             [f2c.web.app.community.catalog.index :as catalog-index]
             [f2c.web.app.community.catalog.item.handlers :as catalog-item]
+
             [f2c.web.app.community.order.individual :as community-order-individual]
             [f2c.web.app.individual.order.index :as individual-order-index]))
 
@@ -33,8 +34,6 @@
 
      ["/communities/:community-id" {:middleware [[app-middleware/facilitator-only]]
                                     :parameters {:path {:community-id uuid?}}}
-      ["" {:name :route.community/index
-           :handler community-index/handler}]
       ["/catalog"
        ["" {:name :route.community.catalog/index
             :handler catalog-index/handler}]
@@ -43,11 +42,12 @@
                                                      :form catalog-item/update-availability-request}
                                         :put catalog-item/update-availability-handler}]]
       ["/orders"
-       ["" {:post order-new/create-handler
-            :parameters {:form order-new/create-request}
-            :name :route.community/create-order}]
+       ["" {:name :route.community/orders
+            :post {:parameters {:form community-order-new/create-request}
+                   :handler community-order-new/create-handler}
+            :get {:handler community-order-index/handler}}]
        ["/new" {:name :route.community/new-order
-                :handler order-new/handler}]]]
+                :handler community-order-new/handler}]]]
 
      ["/individual"
       ["/communities/:community-id"

@@ -8,8 +8,7 @@
   (let [community-id (get-in req [:path-params :community-id])]
     (layout/render
      req
-     [[:form {:action (r/path req :route.community/create-order
-                              {:community-id community-id})
+     [[:form {:action (r/path req :route.community/orders {:community-id community-id})
               :method "POST"
               :class "space-y-5 md:space-y-6 md:max-w-lg"}
        [:legend {:class "section-heading"} "Create New Community Order"]
@@ -23,11 +22,11 @@
                  :placeholder "Dec 16th Order"}]]
        [:div {:class "flex items-center justify-end text-sm space-x-4"}
         [:a {:class "link-tertiary"
-             :href (r/path req :route.community/index {:community-id community-id})} "Cancel"]
+             :href (r/path req :route.community/orders {:community-id community-id})} "Cancel"]
         [:input {:type "submit"
                  :class "btn-primary px-3"
                  :value "Create New Order"}]]]]
-     :create-community-order)))
+     :orders)))
 
 (defn handler [req]
   (render-form req))
@@ -40,4 +39,4 @@
   (let [order-name (get-in req [:parameters :form :community.order/name])
         community-id (get-in req [:parameters :path :community-id])]
     (community-order-repo/create-order community-id order-name)
-    (response/redirect (r/path req :route.community/index {:community-id community-id}))))
+    (response/redirect (r/path req :route.community/orders {:community-id community-id}))))
