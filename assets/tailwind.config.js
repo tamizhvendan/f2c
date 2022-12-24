@@ -5,8 +5,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
-    "../src/f2c/web/**/*.clj",
-    "./node_modules/flowbite/**/*.js"
+    "../src/f2c/web/**/*.clj"
   ],
   theme: {
     fontFamily: {
@@ -21,10 +20,14 @@ module.exports = {
       white: colors.white,
       gray: colors.gray,
       primary: colors.green,
+      neutral: colors.slate,
+      positive: colors.green,
+      urge: colors.violet,
+      warning: colors.yellow,
+      info: colors.blue,
+      critical: colors.red,
     },
     extend: {},
   },
-  plugins: [
-    require('flowbite/plugin')
-  ],
+  plugins: [require("a17t")],
 }

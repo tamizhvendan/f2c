@@ -3,12 +3,12 @@
             [honeyeql.core :as heql]))
 
 (defn fetch-community [community-id]
-  (heql/query db/adapter
-              {[:community/id community-id]
-               [:community/id
-                :community/name
-                {[:community/community-facilitators :as :community/facilitators]
-                 [:community.facilitator/individual-id]}]}))
+  (heql/query-single db/adapter
+                     {[:community/id community-id]
+                      [:community/id
+                       :community/name
+                       {[:community/community-facilitators :as :community/facilitators]
+                        [:community.facilitator/individual-id]}]}))
 
 (defn fetch-communities [individual-id]
   (heql/query db/adapter

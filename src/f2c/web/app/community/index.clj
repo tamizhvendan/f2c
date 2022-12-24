@@ -5,24 +5,37 @@
 
 (defn render-state [state]
   (case state
-    "open" [:span {:class "text-xs bg-primary-600 text-white ml-2 rounded px-1 py-0.5"} state]))
+    "open" [:span {:class "badge ~positive @low text-xs"} state]))
+
+(defn- render-no-orders [req community-id]
+  [:div
+   [:p "You are yet to create a community order."]
+   [:a {:class "button mt-2 ~neutral @low text-sm"
+        :href (r/path req :route.community/new-order {:community-id community-id})} "Create your first order"]])
 
 (defn- orders-section [req community-id]
   (let [orders (community-order-repo/fetch-orders community-id)]
     [:div
+     [:div {:class "flex items-center justify-between"}
+      [:h3 {:class "section-heading mb-1"} "Community Orders"]
+      (when (seq orders)
+        [:p
+         [:a {:class "button ~neutral @low text-sm"
+              :href (r/path req :route.community/new-order {:community-id community-id})} "Create New Order"]])]
      (if (seq orders)
        [:div
-        [:p {:class "flex justify-between items-center"}
-         [:span {:class "font-bold font-display text-xl"} "Orders"]
-         [:a {:class "no-underline border border-primary-800 hover:text-white hover:bg-primary-800 rounded px-3 py-2 text-sm"
-              :href (r/path req :route.community/new-order {:community-id community-id})} "Create Order"]]
-        [:ul {:class "mt-4 space-y-4"}
-         (map (fn [{:community.order/keys [name state]}]
-                [:li {:class "flex items-center"}
-                 [:span name]
-                 (render-state state)]) orders)]]
-       [:p "Sorry, You don't have any orders"])]))
+        [:table {:class "table mt-2 md:mt-4"}
+         [:thead
+          [:tr {:class "font-display opacity-70 text-sm"}
+           [:th "Name"]
+           [:th "Status"]]]
+         [:tbody
+          (map (fn [{:community.order/keys [name state]}]
+                 [:tr
+                  [:td {:class "text-sm"}  name]
+                  [:td (render-state state)]]) orders)]]]
+       (render-no-orders req community-id))]))
 
 (defn handler [req]
   (let [{:community/keys [id]} (:current-community req)]
-    (layout/render req [(orders-section req id)] :home)))
+    (layout/render req (orders-section req id) :home)))

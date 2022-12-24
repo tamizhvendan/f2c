@@ -17,3 +17,5 @@ pom.xml.asc
 .calva
 assets/node_modules
 resources/public/web/site.css
+.clj-kondo
+!.clj-kondo/config.edn

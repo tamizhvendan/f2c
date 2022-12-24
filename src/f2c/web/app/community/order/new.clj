@@ -10,25 +10,23 @@
      req
      [[:form {:action (r/path req :route.community/create-order
                               {:community-id community-id})
-              :method "POST"}
-       [:legend {:class "font-bold font-display text-xl mb-4"} "Create New Order"]
-       [:div {:class "my-4"}
-        [:label {:for "community.order/name"
-                 :class "block mb-2 text-sm font-medium text-gray-900"}
-         "Name of the order"]
+              :method "POST"
+              :class "space-y-5 md:space-y-6 md:max-w-lg"}
+       [:legend {:class "section-heading"} "Create New Community Order"]
+       [:div
+        [:label {:for "community.order/name" :class "field-label"} "Name of the order"]
         [:input {:type "text" :id "community.order/name" :name "community.order/name"
-                 :class "rounded w-full text-sm"
+                 :class "text-sm w-full field ~neutral"
                  :autofocus true
                  :max-length 256 :min-length 4
                  :required true
                  :placeholder "Dec 16th Order"}]]
        [:div {:class "flex items-center justify-end text-sm space-x-4"}
-        [:a {:class "no-underline"
-             :href (r/path req :route.community/index
-                           {:community-id community-id})} "Cancel"]
+        [:a {:class "link-tertiary"
+             :href (r/path req :route.community/index {:community-id community-id})} "Cancel"]
         [:input {:type "submit"
-                 :class "text-white bg-primary-800 rounded px-3 py-2"
-                 :value "Create Order"}]]]]
+                 :class "btn-primary px-3"
+                 :value "Create New Order"}]]]]
      :create-community-order)))
 
 (defn handler [req]
