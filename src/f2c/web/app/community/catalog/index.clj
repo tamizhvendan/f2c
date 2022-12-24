@@ -1,11 +1,13 @@
 (ns f2c.web.app.community.catalog.index
   (:require [f2c.community.item.repository :as community-item-repo]
             [f2c.web.app.view.layout.community :as layout]
-            [f2c.extension.reitit :as r]))
+            [f2c.extension.reitit :as r]
+            [f2c.web.app.view.components.toggle :as toggle]))
 
 (defn on-availability-change-js-body [form-submit-url]
   (format
-   "let formData = new FormData();
+   "isAvailableAtClient = !isAvailableAtClient;
+    let formData = new FormData();
     formData.append('community.item-availability/is-available', isAvailableAtClient);
     fetch('%s', {method : 'PUT', body : new URLSearchParams(formData)})
      .then(response => { 
@@ -27,11 +29,11 @@
     [:li {:class "p-4 rounded shadow-md bg-white mt-4"}
      [:div {:class "flex justify-between"
             :x-data (format "{isAvailableAtClient : %b, itemId : '%s', isAvailableAtServer: %b}" is-available id is-available)}
-      [:p {:class "font-medium"} name]
-      [:select {:x-model "isAvailableAtClient"
-                :x-on:change (on-availability-change-js-body availability-change-url)}
-       [:option {:value "true" :selected is-available} "Available"]
-       [:option {:value "false" :selected (not is-available)} "Not Available"]]]
+      [:p {:class "font-medium flex mr-2"}
+       [:span "A large named vegetable or a fruit"]
+       [:span {:x-show "!isAvailableAtClient"
+               :class "ml-2 text-xs badge ~neutral @high"} "Not available"]]
+      (toggle/render "isAvailableAtClient" (on-availability-change-js-body availability-change-url))]
      [:ul
       (map (fn [{:item.price/keys [price currency pricing-unit]}]
              [:li (format "%s %s per %s" currency price pricing-unit)]) prices)]]))
