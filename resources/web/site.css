@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  [multiple],
+  textarea,
+  select {
+    @apply block w-full shadow-sm rounded-md bg-white border-solid
+           border-gray-200 placeholder-gray-400 
+           focus:border-primary-200 focus:ring-2 focus:ring-primary-100;
+  }
+}
+
 @layer components {
   .card-link {
     @apply no-underline text-sm inline-flex items-center font-medium text-primary-700 hover:text-primary-900
@@ -20,7 +42,7 @@
   }
 
   .btn-primary {
-    @apply button bg-primary-700 text-white hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+    @apply button px-4 py-2 bg-primary-700 text-white hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
   }
 
   .link-tertiary {

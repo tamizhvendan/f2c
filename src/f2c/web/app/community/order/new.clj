@@ -10,21 +10,21 @@
      req
      [[:form {:action (r/path req :route.community/orders {:community-id community-id})
               :method "POST"
-              :class "space-y-5 md:space-y-6 md:max-w-lg"}
+              :class "md:max-w-md"}
        [:legend {:class "page-heading"} "Create New Community Order"]
-       [:div
+       [:div {:class "mt-2"}
         [:label {:for "community.order/name" :class "field-label"} "Name of the order"]
         [:input {:type "text" :id "community.order/name" :name "community.order/name"
-                 :class "text-sm w-full field ~neutral"
+                 :class "text-sm w-full"
                  :autofocus true
                  :max-length 256 :min-length 4
                  :required true
                  :placeholder "Dec 16th Order"}]]
-       [:div {:class "flex items-center justify-end text-sm space-x-4"}
+       [:div {:class "mt-4 flex items-center justify-end text-sm space-x-4"}
         [:a {:class "link-tertiary"
              :href (r/path req :route.community/orders {:community-id community-id})} "Cancel"]
         [:input {:type "submit"
-                 :class "btn-primary px-3"
+                 :class "btn-primary"
                  :value "Create New Order"}]]]]
      :orders)))
 

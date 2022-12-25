@@ -29,5 +29,8 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [require("a17t")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("a17t")
+  ],
 }

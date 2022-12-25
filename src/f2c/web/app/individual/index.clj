@@ -15,10 +15,11 @@
                      (map (fn [{:community/keys [id name] :as community}]
                             (let [is-facilitator (community/is-facilitator community individual-id)]
                               [:li {:class "card mt-4"}
-                               [:h2 {:class "heading text-primary-900"} name]
+                               [:h2 {:class "heading text-primary-700 hover:text-primary-800 hover:underline"}
+                                [:a {:href (r/path req :route.individual/orders {:community-id id})} name]]
                                [:div {:class "flex justify-between mt-2 md:mt-4"}
                                 [:a {:class "inline-flex card-link"
-                                     :href (r/path req :route.individual.community.order/index {:community-id id})}
+                                     :href (r/path req :route.individual/orders {:community-id id})}
                                  [:span "Manage Orders"]
                                  [:i {:class "ri-arrow-right-line ml-1"}]]
                                 (when is-facilitator

@@ -12,12 +12,12 @@
             [f2c.web.status :as status]
 
             [f2c.web.app.individual.index :as individual-index]
-            [f2c.web.app.individual.community.order.index :as individual-community-order-index]
             [f2c.web.app.individual.order.index :as individual-order-index]
+            [f2c.web.app.individual.order.new :as individual-order-new]
+            [f2c.web.app.individual.order.detail :as individual-order-detail]
 
             [f2c.web.app.community.order.index :as community-order-index]
             [f2c.web.app.community.order.new :as community-order-new]
-            [f2c.web.app.community.order.individual :as community-order-individual]
 
             [f2c.web.app.community.catalog.index :as catalog-index]
             [f2c.web.app.community.catalog.item.handlers :as catalog-item]))
@@ -52,19 +52,17 @@
       ["/communities/:community-id"
        {:middleware [[app-middleware/individual-community-only]]
         :parameters {:path {:community-id uuid?}}}
-       ["/orders" {:name :route.individual.community.order/index
-                   :handler individual-community-order-index/handler}]]
+       ["/orders"
+        ["" {:name :route.individual/orders
+             :post {:parameters {:form individual-order-new/create-request}
+                    :handler individual-order-new/create-handler}
+             :get {:handler individual-order-index/handler}}]
+        ["/new" {:name :route.individual/new-order
+                 :handler individual-order-new/handler}]]]
       ["/orders/:individual-order-id" {:middleware [[app-middleware/individual-order]]
                                        :parameters {:path {:individual-order-id uuid?}}}
-       ["" {:name :route.individual-order/index
-            :handler individual-order-index/handler}]]]
-
-     ["/community/orders/:community-order-id" {:middleware [[app-middleware/community-order]]
-                                               :parameters {:path {:community-order-id uuid?}}}
-      ["/individual-orders" {:name :route.community-order/create-individual-order
-                             :post community-order-individual/create-individual-order}]
-      ["/individual-order" {:name :route.community-order/view-current-individual-order
-                            :handler community-order-individual/view-current-individual-order-handler}]]]]
+       ["" {:name :route.individual.order/detail
+            :handler individual-order-detail/handler}]]]]]
    {:data {:coercion   r-malli/coercion
            :muuntaja   m/instance
            :middleware [app-middleware/exception
