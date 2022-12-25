@@ -69,7 +69,10 @@
           {current-individual-id :individual/id} (:current-individual req)]
       (if-let [individual-order (individual-order-repo/fetch-order individual-order-id)]
         (if (= current-individual-id (:individual.order/individual-id individual-order))
-          (handler (assoc req :current-individual-order individual-order))
+          (handler (assoc req
+                          :current-individual-order individual-order
+                          :current-community-order (:individual.order/community-order individual-order)
+                          :current-community (get-in individual-order [:individual.order/community-order :community.order/community])))
           {:status 401
            :message "you are not authorized to perform this operation"})
         (response/not-found "individual order not found")))))

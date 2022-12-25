@@ -12,16 +12,15 @@
             [f2c.web.status :as status]
 
             [f2c.web.app.individual.index :as individual-index]
-            [f2c.web.app.individual.community.index :as individual-community-index]
+            [f2c.web.app.individual.community.order.index :as individual-community-order-index]
+            [f2c.web.app.individual.order.index :as individual-order-index]
 
             [f2c.web.app.community.order.index :as community-order-index]
             [f2c.web.app.community.order.new :as community-order-new]
+            [f2c.web.app.community.order.individual :as community-order-individual]
 
             [f2c.web.app.community.catalog.index :as catalog-index]
-            [f2c.web.app.community.catalog.item.handlers :as catalog-item]
-
-            [f2c.web.app.community.order.individual :as community-order-individual]
-            [f2c.web.app.individual.order.index :as individual-order-index]))
+            [f2c.web.app.community.catalog.item.handlers :as catalog-item]))
 
 (defn root []
   (ring/router
@@ -53,8 +52,8 @@
       ["/communities/:community-id"
        {:middleware [[app-middleware/individual-community-only]]
         :parameters {:path {:community-id uuid?}}}
-       ["" {:name :route.individual.community/index
-            :handler individual-community-index/handler}]]
+       ["/orders" {:name :route.individual.community.order/index
+                   :handler individual-community-order-index/handler}]]
       ["/orders/:individual-order-id" {:middleware [[app-middleware/individual-order]]
                                        :parameters {:path {:individual-order-id uuid?}}}
        ["" {:name :route.individual-order/index

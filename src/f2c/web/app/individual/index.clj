@@ -2,7 +2,7 @@
   (:require [f2c.community :as community]
             [f2c.community.repository :as community-repo]
             [f2c.extension.reitit :as r]
-            [f2c.web.app.view.layout.default :as layout]))
+            [f2c.web.app.view.layout.base :as layout]))
 
 (defn render-index [req]
   (let [{individual-id :individual/id individual-name :individual/name} (:current-individual req)
@@ -18,8 +18,7 @@
                                [:h2 {:class "heading text-primary-900"} name]
                                [:div {:class "flex justify-between mt-2 md:mt-4"}
                                 [:a {:class "inline-flex card-link"
-                                     :href (r/path req :route.individual.community/index {:individual-id individual-id
-                                                                                          :community-id id})}
+                                     :href (r/path req :route.individual.community.order/index {:community-id id})}
                                  [:span "Manage Orders"]
                                  [:i {:class "ri-arrow-right-line ml-1"}]]
                                 (when is-facilitator

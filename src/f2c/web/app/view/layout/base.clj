@@ -1,4 +1,4 @@
-(ns f2c.web.app.view.layout.default
+(ns f2c.web.app.view.layout.base
   (:require [f2c.extension.ring-response :as rr]
             [f2c.extension.rum :as rum]))
 
@@ -9,6 +9,7 @@
    (rr/html
     [:html
      [:head
+      [:meta {:charset "UTF-8"}]
       [:title title]
       [:meta {:name "viewport" :content "width=device-width"}]
       [:link {:rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"}]
@@ -17,4 +18,6 @@
      (rum/element :body (merge {:class "font-body text-base"} body-attrs)
                   body
                   [:script {:src "//unpkg.com/alpinejs" :defer true}]
-                  [:script {:src "https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"}])])))
+                  [:script {:src "https://unpkg.com/flowbite@1.5.5/dist/flowbite.js" :defer true}]
+                  [:script {:type "module"
+                            :dangerouslySetInnerHTML {:__html "import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';"}}])])))

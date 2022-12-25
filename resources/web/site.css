@@ -11,7 +11,7 @@
     @apply font-display
   }
 
-  .section-heading {
+  .page-heading {
     @apply font-display font-bold text-lg
   }
 

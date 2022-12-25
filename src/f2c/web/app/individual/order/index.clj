@@ -1,5 +1,5 @@
 (ns f2c.web.app.individual.order.index
-  (:require [f2c.web.app.view.layout.individual.community :as layout]
+  (:require [f2c.web.app.view.layout.individual :as layout]
             [f2c.community.item.repository :as community-item-repo]))
 
 (defn- render-available-items [available-items]

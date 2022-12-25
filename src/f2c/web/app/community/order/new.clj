@@ -11,7 +11,7 @@
      [[:form {:action (r/path req :route.community/orders {:community-id community-id})
               :method "POST"
               :class "space-y-5 md:space-y-6 md:max-w-lg"}
-       [:legend {:class "section-heading"} "Create New Community Order"]
+       [:legend {:class "page-heading"} "Create New Community Order"]
        [:div
         [:label {:for "community.order/name" :class "field-label"} "Name of the order"]
         [:input {:type "text" :id "community.order/name" :name "community.order/name"
