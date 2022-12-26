@@ -16,7 +16,7 @@
 (defn- render-available-items [available-items]
   (if (seq available-items)
     [:ul {:class "mt-4 p-4 rounded shadow-md bg-white divide-y divide-gray-100 divide-solid "} (map render-available-item available-items)]
-    [:section {:class "section ~info p-4 md:max-w-lg space-y-3 md:space-y-4 rounded mt-4"}
+    [:section {:class "section ~positive @low p-4 md:max-w-lg space-y-3 md:space-y-4 rounded mt-4"}
      [:p {:class "font-bold"} "No available items found"]
      [:p "Items that are available for ordering will be shown here once the community facilitator updates the availability of the items."]]))
 

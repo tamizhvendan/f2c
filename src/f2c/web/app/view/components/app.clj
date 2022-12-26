@@ -2,4 +2,4 @@
 
 (defn community-order-state [state]
   (case state
-    "open" [:span {:class "badge ~positive @low text-xs"} state]))
+    "open" [:span {:class "badge ~positive @high text-xs"} state]))

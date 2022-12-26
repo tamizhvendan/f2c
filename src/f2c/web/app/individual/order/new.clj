@@ -29,7 +29,7 @@
 (defn- render-no-community-orders [req community-id]
   (layout/render
    req
-   [:section {:class "section ~info p-4 md:max-w-lg md:mx-auto space-y-3 md:space-y-4 rounded"}
+   [:section {:class "section ~positive @low p-4 md:max-w-lg md:mx-auto space-y-3 md:space-y-4 rounded"}
     [:p {:class "font-bold"} "No community orders found"]
     [:p {:class ""} "Your community facilitator should create an order for your community first to enable your individual orders"]
     [:a {:class "inline-flex no-underline font-medium hover:text-primary-700"

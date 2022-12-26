@@ -21,12 +21,12 @@
                                 [:a {:class "inline-flex card-link"
                                      :href (r/path req :route.individual/orders {:community-id id})}
                                  [:span "Manage Orders"]
-                                 [:i {:class "ri-arrow-right-line ml-1"}]]
+                                 [:i {:class "ri-arrow-right-line ml-1 mt-1 font-medium"}]]
                                 (when is-facilitator
                                   [:a {:class "card-link"
                                        :href (r/path req :route.community/orders {:community-id id})}
                                    [:span "Manage Community"]
-                                   [:i {:class "ri-arrow-right-line ml-1"}]])]]))
+                                   [:i {:class "ri-arrow-right-line ml-1 mt-1 font-medium"}]])]]))
                           communities)]]
                    {:class "bg-primary-50"})))
 
