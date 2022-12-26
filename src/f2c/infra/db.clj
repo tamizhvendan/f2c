@@ -55,5 +55,5 @@
 (comment
   (migrate)
   (rollback)
-  (migratus/create (migration-config) "item_price"))
+  (migratus/create (migration-config) "item_price_constraints"))
 
