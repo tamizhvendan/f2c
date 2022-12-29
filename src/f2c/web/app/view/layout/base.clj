@@ -17,7 +17,4 @@
       [:link {:rel "stylesheet" :type "text/css" :href "/assets/web/site.css"}]]
      (rum/element :body (merge {:class "font-body text-base"} body-attrs)
                   body
-                  [:script {:src "//unpkg.com/alpinejs" :defer true}]
-                  [:script {:src "https://unpkg.com/flowbite@1.5.5/dist/flowbite.js" :defer true}]
-                  [:script {:type "module"
-                            :dangerouslySetInnerHTML {:__html "import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';"}}])])))
+                  [:script {:src "//unpkg.com/alpinejs" :defer true}])])))
