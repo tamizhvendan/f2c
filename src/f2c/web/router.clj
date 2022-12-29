@@ -36,10 +36,13 @@
       ["/catalog"
        ["" {:name :route.community.catalog/index
             :handler catalog-index/handler}]
-       ["/items/:item-id/availability" {:name :route.community.catalog.item/update-availability
-                                        :parameters {:path {:item-id uuid?}
-                                                     :form catalog-item/update-availability-request}
-                                        :put catalog-item/update-availability-handler}]]
+       ["/items/:item-id" {:parameters {:path {:item-id uuid?}}}
+        ["/availability" {:name :route.community.catalog.item/update-availability
+                          :parameters {:form catalog-item/update-availability-request}
+                          :put catalog-item/update-availability-handler}]
+        ["/price" {:name :route.community.catalog.item/update-price
+                   :parameters {:form catalog-item/update-price-request}
+                   :put catalog-item/update-price-handler}]]]
       ["/orders"
        ["" {:name :route.community/orders
             :post {:parameters {:form community-order-new/create-request}

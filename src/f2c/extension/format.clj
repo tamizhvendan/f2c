@@ -1,7 +1,8 @@
 (ns f2c.extension.format
   (:require [clojure.string :as str])
   (:import [java.text NumberFormat]
-           [java.util Locale]))
+           [java.util Locale Currency]))
+
 
 (defn initial [name]
   (str/upper-case (str (first name) (second name))))
@@ -21,3 +22,6 @@
        (.setMaximumFractionDigits number-format digits)
        (.format number-format amount))
      (format "%s %s" currency amount))))
+
+(defn currency-symbol [currency]
+  (.getSymbol (Currency/getInstance currency)))

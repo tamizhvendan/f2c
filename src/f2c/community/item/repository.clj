@@ -16,6 +16,7 @@
                      "SELECT 
                         i.id, 
                         i.name, 
+                        i.supported_unit_of_measures,
                         ia.is_available,
                         COALESCE(
                           JSON_AGG(JSON_BUILD_OBJECT(
@@ -34,7 +35,8 @@
                    {:builder-fn rs/as-kebab-maps})
         (map (fn [{:keys [item-prices]
                    :as item}]
-               (dissoc (assoc item :item/prices (json/read-str (str item-prices) :key-fn keyword))
+               (dissoc (assoc item :item/prices (json/read-str (str item-prices) :key-fn keyword)
+                              :item/supported-unit-of-measures (.getArray (:item/supported-unit-of-measures item)))
                        :item-prices))))))
 
 (defn fetch-available-items [community-id]
@@ -45,15 +47,6 @@
                 #:community.item-availability{:is-available is-available}
                 #:community.item-availability{:community-id community-id
                                               :item-id item-id}))
-
-;; UPDATE community.item_price
-;; SET valid_period = TSTZRANGE(lower(community.item_price.valid_period), now () AT TIME ZONE 'UTC') 
-;; WHERE 
-;;   upper(valid_period) = 'infinity' AND
-;;   community_id = '74e06d97-cf9f-4133-b6e2-8f06c886f1cd' AND
-;;   item_id = '9a34bb9a-4a7a-4044-b846-20661d0cc619' AND
-;;   pricing_unit = 'kg' AND
-;;   currency = 'INR';
 
 (defn update-price [community-id item-id price pricing-unit]
   (jdbc/with-transaction [tx db/datasource]
@@ -76,7 +69,5 @@
   (update-availability #uuid "74e06d97-cf9f-4133-b6e2-8f06c886f1cd"
                        #uuid "21ad557e-7fc6-4cb1-9a93-b3f87a8812d7"
                        true)
-  (fetch-available-items #uuid "74e06d97-cf9f-4133-b6e2-8f06c886f1cd")
-
-  (fetch-items #uuid "74e06d97-cf9f-4133-b6e2-8f06c886f1cd"))
+  (fetch-available-items #uuid "74e06d97-cf9f-4133-b6e2-8f06c886f1cd"))
 
