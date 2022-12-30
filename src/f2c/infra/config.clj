@@ -6,7 +6,7 @@
 (defn- read-config []
   (aero/read-config (io/resource "config.edn")))
 
-(mount/defstate root 
+(mount/defstate root
   :start (read-config))
 
 (defn db-connection-string []
@@ -17,3 +17,5 @@
 
 (defn version []
   (:version root))
+
+(def default-currency "INR")

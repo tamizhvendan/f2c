@@ -22,6 +22,15 @@
            border-gray-200 placeholder-gray-400 
            focus:border-primary-200 focus:ring-2 focus:ring-primary-100;
   }
+
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      margin: 0; 
+  }
+
 }
 
 @layer components {

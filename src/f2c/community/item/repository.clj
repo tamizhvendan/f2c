@@ -5,7 +5,8 @@
             [next.jdbc.types :as types]
             [next.jdbc.sql :as sql]
             [next.jdbc.result-set :as rs]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [f2c.infra.config :as config]))
 
 (defn fetch-items
   ([community-id]
@@ -55,7 +56,7 @@
                          SET valid_period = TSTZRANGE(lower(community.item_price.valid_period), now () AT TIME ZONE 'UTC')
                          WHERE upper(valid_period) = 'infinity' AND community_id = ?
                            AND item_id = ? AND pricing_unit = ? AND currency = ?"
-                        community-id item-id (types/as-other pricing-unit) (types/as-other "INR")])
+                        community-id item-id (types/as-other pricing-unit) (types/as-other config/default-currency)])
     (jdbc/execute-one! tx
                        ["INSERT INTO community.item_price (community_id, item_id, price, pricing_unit)
                          VALUES (?, ?, ?, ?)"
