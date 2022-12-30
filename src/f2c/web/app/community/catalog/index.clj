@@ -7,7 +7,7 @@
             [f2c.infra.config :as config]))
 
 (defn- price-display [humnaized-price pricing-unit has-price]
-  [:div {:x-show "canDisplayPrice()" :class "flex items-center" :style {:display (if has-price "block" "none")}}
+  [:div {:x-show "canDisplayPrice()" :class "flex items-center" :style {:display (if has-price "flex" "none")}}
    [:p
     [:span {:class "text-xl font-medium font-mono" :x-text "humanizedPrice"} humnaized-price]
     [:span {:class "ml-1 text-gray-700"} (str "per " pricing-unit)]]
@@ -20,10 +20,11 @@
    [:div {:class "relative w-1/2 md:w-1/3 lg:w-1/4 text-sm"}
     [:div {:class "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"}
      [:span {:class "text-gray-500"} (fmt/currency-symbol config/default-currency)]]
-    [:input {:class "block w-full pl-7 pr-20" :x-model "price" :type "number" :min 0 :value value}]
+    [:input {:class "block w-full pl-7 pr-20" :x-model "price" :type "number" :min 1 :value value}]
     [:div {:class "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"}
      [:span {:class "text-gray-500"} (str "per " uom)]]]
    [:button {:class "btn-primary text-sm"
+             :x-bind:disabled "!canSave()"
              :type "button" :x-on:click "save()"} "Save"]
    [:button {:class "text-sm" :type "cancel" :x-on:click "cancel()"} "Cancel"]])
 
@@ -41,7 +42,7 @@
           :class "underline hover:cursor-pointer hover:text-primary-700"}
       (str "Set price per " uom)]
      (price-display humnaized-price uom false)
-     (price-update-form uom 0)]))
+     (price-update-form uom nil)]))
 
 (defn- render-price [req id {:item.price/keys [price currency pricing-unit]}]
   (let [humnaized-price (fmt/humanize-price currency price)]

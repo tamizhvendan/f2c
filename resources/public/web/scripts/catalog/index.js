@@ -20,6 +20,9 @@ window.f2c = window.f2c || {};
       cancel() {
         this.isEditingPrice = false
       },
+      canSave() {
+        return !!this.price;
+      },
       save() {
         this.isEditingPrice = false
         this.isSaving = true;
