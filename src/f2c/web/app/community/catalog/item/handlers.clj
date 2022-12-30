@@ -16,7 +16,7 @@
 
 (def update-price-request
   [:map
-   [:community.item-price/price [:and :int [:>= 0]]]
+   [:community.item-price/price [:and decimal? [:>= 0]]]
    [:community.item-price/pricing-unit [:enum "kg" "piece"]]])
 
 (defn update-price-handler [req]

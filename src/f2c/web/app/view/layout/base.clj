@@ -17,4 +17,5 @@
       [:link {:rel "stylesheet" :type "text/css" :href "/assets/web/site.css"}]]
      (rum/element :body (merge {:class "font-body text-base"} body-attrs)
                   body
-                  [:script {:src "//unpkg.com/alpinejs" :defer true}])])))
+                  [:script {:src "//unpkg.com/alpinejs" :defer true}]
+                  [:script {:src "/assets/web/scripts/catalog/index.js"}])])))
