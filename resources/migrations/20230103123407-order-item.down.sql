@@ -1,0 +1,1 @@
+DROP TABLE individual.order_item;

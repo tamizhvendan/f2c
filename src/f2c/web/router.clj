@@ -15,6 +15,7 @@
             [f2c.web.app.individual.order.index :as individual-order-index]
             [f2c.web.app.individual.order.new :as individual-order-new]
             [f2c.web.app.individual.order.detail :as individual-order-detail]
+            [f2c.web.app.individual.order.item.handlers :as individual-order-item]
 
             [f2c.web.app.community.order.index :as community-order-index]
             [f2c.web.app.community.order.new :as community-order-new]
@@ -65,7 +66,10 @@
       ["/orders/:individual-order-id" {:middleware [[app-middleware/individual-order]]
                                        :parameters {:path {:individual-order-id uuid?}}}
        ["" {:name :route.individual.order/detail
-            :handler individual-order-detail/handler}]]]]]
+            :handler individual-order-detail/handler}]
+       ["/items" {:name :route.individual.order/items
+                  :post {:parameters {:form individual-order-item/create-request}
+                         :handler individual-order-item/create-order-item}}]]]]]
    {:data {:coercion   r-malli/coercion
            :muuntaja   m/instance
            :middleware [app-middleware/exception

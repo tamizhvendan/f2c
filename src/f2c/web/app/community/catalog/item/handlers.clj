@@ -2,7 +2,8 @@
   (:require [f2c.community.item.repository :as community-item-repo]
             [f2c.extension.ring-response :as rr]
             [f2c.extension.format :as fmt]
-            [f2c.infra.config :as config]))
+            [f2c.infra.config :as config]
+            [f2c.schema :as schema]))
 
 (def update-availability-request
   [:map
@@ -16,8 +17,8 @@
 
 (def update-price-request
   [:map
-   [:community.item-price/price [:and decimal? [:> 0]]]
-   [:community.item-price/pricing-unit [:enum "kg" "piece"]]])
+   [:community.item-price/price schema/positive-decimal]
+   [:community.item-price/pricing-unit schema/unit-of-measure]])
 
 (defn update-price-handler [req]
   (let [{:community.item-price/keys [price pricing-unit]} (get-in req [:parameters :form])

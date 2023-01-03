@@ -21,6 +21,9 @@
                 {:individual.order/individual-id individual-id
                  :individual.order/community-order-id community-order-id}))
 
+(defn create-order-item [individual-order-item]
+  (heql/insert! db/adapter individual-order-item))
+
 (defn fetch-orders [community-id individual-id]
   (heql/query db/adapter
               {[[:individual.order/individual-id individual-id]
@@ -31,3 +34,9 @@
                  [:community.order/name
                   :community.order/created-at
                   :community.order/state]}]}))
+
+(comment
+  (create-order-item  #:individual.order-item{:individual-order-id "8248128e-a137-48a9-9913-c2f4fe3e4198"
+                                              :item-id "bd6f86ab-b266-4757-9d3f-12dd286c4433"
+                                              :quantity 1
+                                              :unit "piece"}))

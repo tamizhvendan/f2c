@@ -55,5 +55,5 @@
 (comment
   (migrate)
   (rollback)
-  (migratus/create (migration-config) "item_unit_of_measures"))
+  (migratus/create (migration-config) "order_item"))
 

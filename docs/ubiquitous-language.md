@@ -34,5 +34,8 @@
 # individual-order
 An order placed by an individual
 
+## individual-order-item
+An item that is part of the individual order
+
 # fulfillment
 - act of receiving what an individiual/facilitator ordered

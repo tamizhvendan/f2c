@@ -19,6 +19,7 @@ window.f2c = window.f2c || {};
       },
       cancel() {
         this.isEditingPrice = false
+        this.price = price
       },
       canSave() {
         return !!this.price;
