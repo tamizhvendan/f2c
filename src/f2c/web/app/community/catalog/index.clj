@@ -11,16 +11,17 @@
    [:p
     [:span {:class "text-xl font-medium font-mono" :x-text "humanizedPrice"} humnaized-price]
     [:span {:class "ml-1 text-gray-700"} (str "per " pricing-unit)]]
-   [:i {:class "px-2 ri-pencil-fill text-gray-600 text-base hover:cursor-pointer hover:text-primary-700" :aria-label "Edit Price" :x-on:click "editPrice()"}]])
+   [:i {:class "px-2 ri-pencil-fill text-gray-600 text-base hover:cursor-pointer hover:text-primary-700" :aria-label "Edit Price"
+        :x-on:click "editPrice($refs, $nextTick)"}]])
 
-(defn- price-update-form [uom value]
+(defn- price-update-form [item-id uom value]
   [:div {:x-show "isEditingPrice"
          :class "flex space-x-3 text-base items-center"
          :style {:display "none"}}
    [:div {:class "relative w-1/2 md:w-1/3 lg:w-1/4 text-sm"}
     [:div {:class "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"}
      [:span {:class "text-gray-500"} (fmt/currency-symbol config/default-currency)]]
-    [:input {:class "block w-full pl-7 pr-20" :x-model "price" :type "number" :min 1 :value value}]
+    [:input {:x-ref (format "%s-%s" item-id uom) :class "block w-full pl-7 pr-20" :x-model "price" :type "number" :min 1 :value value}]
     [:div {:class "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"}
      [:span {:class "text-gray-500"} (str "per " uom)]]]
    [:button {:class "btn-primary text-sm"
@@ -38,22 +39,22 @@
           :class "text-sm"}
      [:p {:x-show "isSaving" :style {:display "none"} :class "text-sm"} "Saving..."]
      [:p {:x-show "canShowSetPriceCta()"
-          :x-on:click "editPrice()"
+          :x-on:click "editPrice($refs, $nextTick)"
           :class "underline hover:cursor-pointer hover:text-primary-700"}
       (str "Set price per " uom)]
      (price-display humnaized-price uom false)
-     (price-update-form uom nil)]))
+     (price-update-form item-id uom nil)]))
 
-(defn- render-price [req id {:item.price/keys [price currency pricing-unit]}]
+(defn- render-price [req item-id {:item.price/keys [price currency pricing-unit]}]
   (let [humnaized-price (fmt/humanize-price currency price)]
     [:li {:x-data (format "f2c.priceUpdate('%s', %s, '%s', '%s', '%s')"
-                          id price pricing-unit humnaized-price
+                          item-id price pricing-unit humnaized-price
                           (r/path req :route.community.catalog.item/update-price
                                   {:community-id (get-in req [:current-community :community/id])
-                                   :item-id id}))}
+                                   :item-id item-id}))}
      [:p {:x-show "isSaving" :style {:display "none"} :class "text-sm"} "Saving..."]
      (price-display humnaized-price pricing-unit true)
-     (price-update-form pricing-unit price)]))
+     (price-update-form item-id pricing-unit price)]))
 
 (defn- render-prices [req {:item/keys [id supported-unit-of-measures prices]}]
   (map (fn [uom]

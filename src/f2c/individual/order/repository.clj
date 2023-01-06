@@ -68,7 +68,8 @@ ORDER BY i.name")
        (map (fn [{:keys [item-prices]
                   :as item}]
               (dissoc (assoc item :item/prices (json/read-str (str item-prices) :key-fn keyword)
-                             :item/supported-unit-of-measures (.getArray (:item/supported-unit-of-measures item))
+                             :item/supported-unit-of-measures (sort-by identity #(compare %2 %1)
+                                                                       (.getArray (:item/supported-unit-of-measures item)))
                              :item.ordered/quantity (:order-item/quantity item)
                              :item.ordered/unit (:order-item/unit item))
                       :item-prices

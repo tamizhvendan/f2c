@@ -14,8 +14,9 @@ window.f2c = window.f2c || {};
       canDisplayPrice() {
         return !this.isEditingPrice && !this.hasNoPrice && !this.isSaving;
       },
-      editPrice() {
+      editPrice($refs, $nextTick) {
         this.isEditingPrice = true
+        $nextTick(() => $refs[itemId + "-" + pricingUnit].focus());
       },
       cancel() {
         this.isEditingPrice = false
