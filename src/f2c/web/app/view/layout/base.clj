@@ -18,4 +18,5 @@
      (rum/element :body (merge {:class "font-body text-base"} body-attrs)
                   body
                   [:script {:src "//unpkg.com/alpinejs" :defer true}]
-                  [:script {:src "/assets/web/scripts/catalog/index.js"}])])))
+                  [:script {:src "/assets/web/scripts/catalog/index.js"}]
+                  [:script {:src "/assets/web/scripts/individual/order/index.js"}])])))
