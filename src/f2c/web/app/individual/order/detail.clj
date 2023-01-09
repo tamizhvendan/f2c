@@ -64,7 +64,6 @@
         items (individual-order-repo/fetch-items (get-in req [:parameters :path :individual-order-id]))]
     (layout/render req
                    [:div
-
                     [:div {:class "flex"}
                      [:a {:class "flex hover:text-primary-700"
                           :href (r/path req :route.individual/orders {:community-id community-id})}

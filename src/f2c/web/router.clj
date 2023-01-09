@@ -19,6 +19,7 @@
 
             [f2c.web.app.community.order.index :as community-order-index]
             [f2c.web.app.community.order.new :as community-order-new]
+            [f2c.web.app.community.order.detail :as community-order-detail]
 
             [f2c.web.app.community.catalog.index :as catalog-index]
             [f2c.web.app.community.catalog.item.handlers :as catalog-item]))
@@ -50,7 +51,11 @@
                    :handler community-order-new/create-handler}
             :get {:handler community-order-index/handler}}]
        ["/new" {:name :route.community/new-order
-                :handler community-order-new/handler}]]]
+                :handler community-order-new/handler}]
+       ["/t/:community-order-id" {:middleware [[app-middleware/community-order]]
+                                  :parameters {:path {:community-order-id uuid?}}}
+        ["" {:name :route.community.order/detail
+             :handler community-order-detail/handler}]]]]
 
      ["/individual"
       ["/communities/:community-id"

@@ -28,7 +28,10 @@
   [(render-tabs req current-page-name)
    (rum/element :main {:class ""} body)])
 
-(defn render [req body current-page-name]
-  (layout/render req
-                 (str (get-in req [:current-community :community/name]) " - Community")
-                 (render-body req body current-page-name)))
+(defn render
+  ([req body]
+   (render req body nil))
+  ([req body current-page-name]
+   (layout/render req
+                  (str (get-in req [:current-community :community/name]) " - Community")
+                  (render-body req body current-page-name))))

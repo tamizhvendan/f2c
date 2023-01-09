@@ -5,6 +5,7 @@
             [reitit.ring.middleware.exception :as exception]
             [ring.middleware.basic-authentication :as rbauth]
             [ring.util.response :as response]
+            [f2c.community.order.repository :as community-order-repo]
             [f2c.individual.order.repository :as individual-order-repo]))
 
 (defn- wrap-basic-authentication [handler]
@@ -64,6 +65,17 @@
 (def individual-order
   {:name :individual-order
    :compile (constantly wrap-individual-order)})
+
+(defn- wrap-community-order [handler]
+  (fn [req]
+    (let [{:keys [community-order-id]} (:path-params req)]
+      (if-let [community-order (community-order-repo/fetch-order community-order-id)]
+        (handler (assoc req :current-community-order community-order))
+        (response/not-found "community order not found")))))
+
+(def community-order
+  {:name :community-order
+   :compile (constantly wrap-community-order)})
 
 (defn- global-exception-handler [_ exception _]
   (prn "application exception" exception)
