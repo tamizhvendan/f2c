@@ -51,9 +51,11 @@
                    :handler community-order-new/create-handler}
             :get {:handler community-order-index/handler}}]
        ["/new" {:name :route.community/new-order
+                :conflicting true
                 :handler community-order-new/handler}]
-       ["/t/:community-order-id" {:middleware [[app-middleware/community-order]]
-                                  :parameters {:path {:community-order-id uuid?}}}
+       ["/:community-order-id" {:conflicting true
+                                :middleware [[app-middleware/community-order]]
+                                :parameters {:path {:community-order-id uuid?}}}
         ["" {:name :route.community.order/detail
              :handler community-order-detail/handler}]]]]
 
